@@ -1,10 +1,10 @@
-  # cat=basic/enable; type=text; label=Email to: E-mail address for notification (separate multiple addresses with comma)
-email_to = 
-  # cat=basic/enable; type=text; label=Email from: E-mail address used as sender (please use an address from your domain, otherwise the mail may be detected as spam) 
-email_from = 
-  # cat=basic/enable; type=text; label=Content text: Enter a Text that will show instead of your homepage, if a hacking attempt is detected.
+# cat=basic/enable; type=text; label=Email to: E-mail address for notification (separate multiple addresses with comma)
+email_to =
+# cat=basic/enable; type=text; label=Email from: E-mail address used as sender (please use an address from your domain, otherwise the mail may be detected as spam)
+email_from =
+# cat=basic/enable; type=text; label=Content text: Enter a Text that will show instead of your homepage, if a hacking attempt is detected.
 content_text = Sorry, our website is down for maintenance. Please try again later!
- # cat=basic/enable; type=text; label=Redirect URL: If you wan't to show another page, please enter the url to redirect to (starting with "http://").
+# cat=basic/enable; type=text; label=Redirect URL: If you wan't to show another page, please enter the url to redirect to (starting with "http://").
 redirect_url = http://
- # cat=basic/enable; type=text; label=Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.
+# cat=basic/enable; type=text; label=Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.
 email_wait_time = 1800
