@@ -1,0 +1,9 @@
+2011-12-28 Yves Poersch - jweiland.net  <extensions@jweiland.net>
+	
+	* 2.0.4
+		- typo in email corrected
+		- PHP 5.3 __DIR__ change to dirname(__FILE__)
+	
+2011-05-23 Yves Poersch - jweiland.net  <extensions@jweiland.net>
+
+	* initial version
