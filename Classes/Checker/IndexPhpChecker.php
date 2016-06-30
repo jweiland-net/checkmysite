@@ -61,7 +61,6 @@ class IndexPhpChecker
         '/text/i',
         '/iframe/i',
         '/type/i',
-        '/<[^<?php]/',
         /*
          * super globals
          */
