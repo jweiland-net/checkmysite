@@ -210,7 +210,10 @@ class IndexPhpChecker
     protected function getOutput()
     {
         // redirect to url, if set and is valid
-        if (GeneralUtility::isValidUrl($this->extConf->getRedirectUrl())) {
+        if (
+            !empty(parse_url($this->extConf->getRedirectUrl(), PHP_URL_HOST)) &&
+            GeneralUtility::isValidUrl($this->extConf->getRedirectUrl())
+        ) {
             // because of the attack we may have an output.
             // That's why we use the META Refresh instead of the better header Location method
             $output = $this->renderTemplate(
