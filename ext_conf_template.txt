@@ -15,4 +15,4 @@ email_template_for_missing_index = EXT:checkmysite/Resources/Private/Email/Missi
 # cat=basic/enable; type=text; label=Template for redirect: Define a template for redirecting to another location via META refresh.
 template_output_redirect = EXT:checkmysite/Resources/Private/Output/Redirect.html
 # cat=basic/enable; type=text; label=Template for alternative output: Define a template for redirecting to another location via META refresh.
-template_output_alternative = EXT:checkmysite/Resources/Private/Output/Redirect.html
+template_output_alternative = EXT:checkmysite/Resources/Private/Output/Alternative.html
