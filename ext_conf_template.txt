@@ -8,3 +8,11 @@ content_text = Sorry, our website is down for maintenance. Please try again late
 redirect_url = http://
 # cat=basic/enable; type=text; label=Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.
 email_wait_time = 1800
+# cat=basic/enable; type=text; label=Template for hacking: Define an email template which should be used to send the hacking notice.
+email_template_for_hacking = EXT:checkmysite/Resources/Private/Email/HackingNotice.html
+# cat=basic/enable; type=text; label=Template for missing index.php: Define an email template which should be used to send the missing index.php notice
+email_template_for_missing_index = EXT:checkmysite/Resources/Private/Email/MissingIndex.html
+# cat=basic/enable; type=text; label=Template for redirect: Define a template for redirecting to another location via META refresh.
+template_output_redirect = EXT:checkmysite/Resources/Private/Output/Redirect.html
+# cat=basic/enable; type=text; label=Template for alternative output: Define a template for redirecting to another location via META refresh.
+template_output_alternative = EXT:checkmysite/Resources/Private/Output/Redirect.html

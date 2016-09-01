@@ -1,34 +1,23 @@
 <?php
-
 namespace JWeiland\Checkmysite\Checker;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2016 Stefan Froemken <projects@jweiland.net>, jweiland.net
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  All rights reserved
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * The TYPO3 project - inspiring people to share!
+ */
 use JWeiland\Checkmysite\Configuration\ExtConf;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * check the index.php for hacking
@@ -38,22 +27,22 @@ class IndexPhpChecker
     /**
      * @var ExtConf
      */
-    private $extConf;
+    protected $extConf;
 
     /**
      * @var Registry
      */
-    private $registry;
+    protected $registry;
 
     /**
      * @var string
      */
-    private $hackingIssue = '';
+    protected $hackingIssue = '';
 
     /**
      * @var array
      */
-    private $pattern = array(
+    protected $pattern = array(
         /*
          * stop words
          */
@@ -150,12 +139,15 @@ class IndexPhpChecker
     );
 
     /**
-     * IndexPhpChecker constructor.
+     * initialize this object
+     *
+     * @return void
      */
-    public function __construct()
+    public function initializeObject()
     {
         $this->extConf = GeneralUtility::makeInstance('JWeiland\\Checkmysite\\Configuration\\ExtConf');
         $this->registry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Registry');
+        // @ToDo: SF: Why do we need this?
         date_default_timezone_set('Europe/Berlin');
     }
 
@@ -166,6 +158,7 @@ class IndexPhpChecker
      */
     public function checkIndexPhp()
     {
+        $this->initializeObject();
         $content = @file_get_contents(PATH_site . 'index.php');
         if (!empty($content)) {
             // removing all comments
@@ -176,49 +169,14 @@ class IndexPhpChecker
                     $this->extConf->getEmailTo()
                     && (int)$this->registry->get('checkmysite', 'timestampOfLastSendEmail') + $this->extConf->getEmailWaitTime() <= time()
                 ) {
-                    $this->sendMail(
-                        $this->extConf->getEmailFrom(),
-                        'TYPO3-CheckMySite',
-                        $this->extConf->getEmailTo(),
-                        'TYPO3-CheckMySite hacking attempt @ site:' . $_SERVER['HTTP_HOST'],
-                        'Hello Administrator,'.PHP_EOL.'please check your TYPO3 installation, it seems to be hacking at the index.php of TYPO3!'.PHP_EOL.PHP_EOL.'Pattern match: '.PHP_EOL.$this->hackingIssue
-                    );
+                    $this->sendHackingNotice();
                 }
-                // standard redirect url
-                if (strlen($this->extConf->getRedirectUrl()) > 7) {
-                    // we have to set the bad http reload, because if there will be output we can not change the header-location
-                    $output = sprintf('
-                        <html>
-                            <head><meta name="robots" content="noindex,nofollow"><meta http-equiv="refresh" content="1; URL=%s"><title>redirect</title></head>
-                            <body>redirect to <a href="%s">%s</a></body>
-                        </html>',
-                        $this->extConf->getRedirectUrl(),
-                        'redirect',
-                        $this->extConf->getRedirectUrl(),
-                        $this->extConf->getRedirectUrl()
-                    );
-                } else {
-                    $output = sprintf('
-                        <html>
-                            <head><meta name="robots" content="noindex,nofollow"><title>%s</title></head>
-                            <body>%s</body>
-                        </html>',
-                        'Sorry',
-                        $this->extConf->getContentText()
-                    );
-                }
-                die($output);
+                die($this->getOutput());
             }
         } else {
             // panic no index.php or not readable!
             if ($this->extConf->getEmailTo()) {
-                $this->sendMail(
-                    $this->extConf->getEmailFrom(),
-                    'TYPO3-CheckMySite',
-                    $this->extConf->getEmailTo(),
-                    'TYPO3-CheckMySite panic, no index.php!',
-                    'Hello Administrator, please check your TYPO3 installation, your index.php is not readable!'
-                );
+                $this->sendMissingIndexNotice();
             }
             exit;
         }
@@ -231,41 +189,123 @@ class IndexPhpChecker
      * @param string $content
      * @return bool
      */
-    private function searchForHack($content)
+    protected function searchForHack($content)
     {
-        foreach($this->pattern as $pattern) {
+        foreach ($this->pattern as $pattern) {
             $this->hackingIssue = $pattern;
             if (preg_match($pattern, $content)) {
                 return true;
             }
         }
-        // no hacking return
+        // no hacking. return
         return false;
     }
-
+    
     /**
-     * send the email, using the t3lib message function
-     * or failsave with php mail function!
+     * Generate an alternative output on hacking detection
+     * or an output for redirect
      *
-     * @param string $emailFrom
-     * @param string $nameFrom
-     * @param string $emailTo
+     * @return string
+     */
+    protected function getOutput()
+    {
+        // redirect to url, if set and is valid
+        if (GeneralUtility::isValidUrl($this->extConf->getRedirectUrl())) {
+            // because of the attack we may have an output.
+            // That's why we use the META Refresh instead of the better header Location method
+            $output = $this->renderTemplate(
+                $this->extConf->getTemplateOutputRedirect(),
+                array(
+                    'redirectUrl' => $this->extConf->getRedirectUrl()
+                )
+            );
+        } else {
+            $output = $this->renderTemplate(
+                $this->extConf->getTemplateOutputAlternative(),
+                array(
+                    'title' => 'Sorry',
+                    'content' => $this->extConf->getContentText()
+                )
+            );
+        }
+        
+        return $output;
+    }
+    
+    /**
+     * send hacking notice via email
+     *
+     * @return void
+     */
+    protected function sendHackingNotice()
+    {
+        $this->sendMail(
+            sprintf(
+                'TYPO3-CheckMySite hacking attempt @ site: %s',
+                $_SERVER['HTTP_HOST']
+            ),
+            $this->renderTemplate(
+                $this->extConf->getEmailTemplateForHacking(),
+                array(
+                    'hackingIssue' => $this->hackingIssue
+                )
+            )
+        );
+    }
+    
+    /**
+     * send missing or not readable index.php notice via email
+     *
+     * @return void
+     */
+    protected function sendMissingIndexNotice()
+    {
+        $this->sendMail(
+            'TYPO3-CheckMySite panic, no index.php!',
+            $this->renderTemplate(
+                $this->extConf->getEmailTemplateForMissingIndex()
+            )
+        );
+    }
+    
+    /**
+     * send the email, using the MailMessage class
+     *
      * @param string $subject
      * @param string $body
+     *
+     * @return void
      */
-    private function sendMail($emailFrom, $nameFrom, $emailTo, $subject, $body)
+    protected function sendMail($subject, $body)
     {
         /** @var MailMessage $mail */
         $mail = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
-        $mail->setFrom(array($emailFrom => $nameFrom));
-        if (strpos($emailTo, ',') !== false) {
-            $emailTo = implode(',', $emailTo);
-        }
-        $mail->setTo($emailTo);
+        $mail->setFrom(array($this->extConf->getEmailFrom() => 'TYPO3-CheckMySite'));
+        $mail->setTo(GeneralUtility::trimExplode(',', $this->extConf->getEmailTo()));
         $mail->setSubject($subject);
         $mail->setBody($body);
         if ($mail->send()) {
             $this->registry->set('checkmysite', 'timestampOfLastSendEmail', time());
         }
+    }
+    
+    /**
+     * Render template
+     *
+     * @param string $file A filename which can also be started with EXT:
+     * @param array $assign Add some variables you want to assign to template
+     *
+     * @return string
+     */
+    protected function renderTemplate($file, array $assign = array())
+    {
+        /** @var StandaloneView $view */
+        $view = GeneralUtility::makeInstance('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+        $view->setTemplatePathAndFilename(
+            GeneralUtility::getFileAbsFileName($file)
+        );
+        $view->assignMultiple($assign);
+        
+        return $view->render();
     }
 }

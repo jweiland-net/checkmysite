@@ -1,30 +1,18 @@
 <?php
-
 namespace JWeiland\Checkmysite\Configuration;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2016 Stefan Froemken <projects@jweiland.net>, jweiland.net
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  All rights reserved
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * The TYPO3 project - inspiring people to share!
+ */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -57,8 +45,27 @@ class ExtConf implements SingletonInterface
      * @var int
      */
     protected $emailWaitTime = 1800;
-
-
+    
+    /**
+     * @var string
+     */
+    protected $emailTemplateForHacking = '';
+    
+    /**
+     * @var string
+     */
+    protected $emailTemplateForMissingIndex = '';
+    
+    /**
+     * @var string
+     */
+    protected $templateOutputRedirect = '';
+    
+    /**
+     * @var string
+     */
+    protected $templateOutputAlternative = '';
+    
     /**
      * constructor of this class
      * This method reads the global configuration and calls the setter methods.
@@ -187,5 +194,89 @@ class ExtConf implements SingletonInterface
     public function setEmailWaitTime($emailWaitTime)
     {
         $this->emailWaitTime = (int)$emailWaitTime;
+    }
+    
+    /**
+     * Returns the emailTemplateForHacking
+     *
+     * @return string $emailTemplateForHacking
+     */
+    public function getEmailTemplateForHacking()
+    {
+        return $this->emailTemplateForHacking;
+    }
+    
+    /**
+     * Sets the emailTemplateForHacking
+     *
+     * @param string $emailTemplateForHacking
+     * @return void
+     */
+    public function setEmailTemplateForHacking($emailTemplateForHacking)
+    {
+        $this->emailTemplateForHacking = (string)$emailTemplateForHacking;
+    }
+    
+    /**
+     * Returns the emailTemplateForMissingIndex
+     *
+     * @return string $emailTemplateForMissingIndex
+     */
+    public function getEmailTemplateForMissingIndex()
+    {
+        return $this->emailTemplateForMissingIndex;
+    }
+    
+    /**
+     * Sets the emailTemplateForMissingIndex
+     *
+     * @param string $emailTemplateForMissingIndex
+     * @return void
+     */
+    public function setEmailTemplateForMissingIndex($emailTemplateForMissingIndex)
+    {
+        $this->emailTemplateForMissingIndex = (string)$emailTemplateForMissingIndex;
+    }
+    
+    /**
+     * Returns the templateOutputRedirect
+     *
+     * @return string $templateOutputRedirect
+     */
+    public function getTemplateOutputRedirect()
+    {
+        return $this->templateOutputRedirect;
+    }
+    
+    /**
+     * Sets the templateOutputRedirect
+     *
+     * @param string $templateOutputRedirect
+     * @return void
+     */
+    public function setTemplateOutputRedirect($templateOutputRedirect)
+    {
+        $this->templateOutputRedirect = (string)$templateOutputRedirect;
+    }
+    
+    /**
+     * Returns the templateOutputAlternative
+     *
+     * @return string $templateOutputAlternative
+     */
+    public function getTemplateOutputAlternative()
+    {
+        return $this->templateOutputAlternative;
+    }
+    
+    /**
+     * Sets the templateOutputAlternative
+     *
+     * @param string $templateOutputAlternative
+     * @return void
+     */
+    public function setTemplateOutputAlternative($templateOutputAlternative)
+    {
+        $this->templateOutputAlternative = (string)$templateOutputAlternative;
     }
 }

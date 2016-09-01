@@ -2,7 +2,7 @@
     "name": "jweiland/checkmysite",
     "type": "typo3-cms-extension",
     "description": "Check index.php for suspicious modifications",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "license": "GPL-2.0+",
     "keywords": ["typo3", "TYPO3 CMS", "checkmysite", "check my site", "index.php checker", "index.php", "check"],
     "homepage": "http://www.jweiland.net",
