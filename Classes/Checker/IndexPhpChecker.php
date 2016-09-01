@@ -286,7 +286,8 @@ class IndexPhpChecker
         $mail->setFrom(array($this->extConf->getEmailFrom() => 'TYPO3-CheckMySite'));
         $mail->setTo(GeneralUtility::trimExplode(',', $this->extConf->getEmailTo()));
         $mail->setSubject($subject);
-        $mail->setBody($body);
+        $mail->setBody(nl2br(strip_tags($body)));
+        $mail->addPart($body, 'text/html');
         if ($mail->send()) {
             $this->registry->set('checkmysite', 'timestampOfLastSendEmail', time());
         }
