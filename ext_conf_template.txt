@@ -10,8 +10,8 @@ redirect_url = http://
 email_wait_time = 1800
 # cat=basic/enable; type=text; label=Template for hacking: Define an email template which should be used to send the hacking notice.
 email_template_for_hacking = EXT:checkmysite/Resources/Private/Email/HackingNotice.html
-# cat=basic/enable; type=text; label=Template for missing index.php: Define an email template which should be used to send the missing index.php notice
-email_template_for_missing_index = EXT:checkmysite/Resources/Private/Email/MissingIndex.html
+# cat=basic/enable; type=text; label=Template for not readable index.php: Define an email template which should be used to send the not readable index.php notice
+email_template_for_not_readable_index = EXT:checkmysite/Resources/Private/Email/NotReadableIndex.html
 # cat=basic/enable; type=text; label=Template for redirect: Define a template for redirecting to another location via META refresh.
 template_output_redirect = EXT:checkmysite/Resources/Private/Output/Redirect.html
 # cat=basic/enable; type=text; label=Template for alternative output: Define a template for redirecting to another location via META refresh.

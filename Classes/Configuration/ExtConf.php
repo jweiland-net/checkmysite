@@ -54,7 +54,7 @@ class ExtConf implements SingletonInterface
     /**
      * @var string
      */
-    protected $emailTemplateForMissingIndex = '';
+    protected $emailTemplateForNotReadableIndex = '';
     
     /**
      * @var string
@@ -218,24 +218,24 @@ class ExtConf implements SingletonInterface
     }
     
     /**
-     * Returns the emailTemplateForMissingIndex
+     * Returns the emailTemplateForNotReadableIndex
      *
-     * @return string $emailTemplateForMissingIndex
+     * @return string $emailTemplateForNotReadableIndex
      */
-    public function getEmailTemplateForMissingIndex()
+    public function getEmailTemplateForNotReadableIndex()
     {
-        return $this->emailTemplateForMissingIndex;
+        return $this->emailTemplateForNotReadableIndex;
     }
     
     /**
-     * Sets the emailTemplateForMissingIndex
+     * Sets the emailTemplateForNotReadableIndex
      *
-     * @param string $emailTemplateForMissingIndex
+     * @param string $emailTemplateForNotReadableIndex
      * @return void
      */
-    public function setEmailTemplateForMissingIndex($emailTemplateForMissingIndex)
+    public function setEmailTemplateForNotReadableIndex($emailTemplateForNotReadableIndex)
     {
-        $this->emailTemplateForMissingIndex = (string)$emailTemplateForMissingIndex;
+        $this->emailTemplateForNotReadableIndex = (string)$emailTemplateForNotReadableIndex;
     }
     
     /**

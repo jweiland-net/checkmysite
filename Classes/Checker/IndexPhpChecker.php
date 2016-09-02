@@ -159,8 +159,9 @@ class IndexPhpChecker
     public function checkIndexPhp()
     {
         $this->initializeObject();
-        $content = @file_get_contents(PATH_site . 'index.php');
-        if (!empty($content)) {
+        
+        if (is_readable(PATH_site . 'index.php')) {
+            $content = @file_get_contents(PATH_site . 'index.php');
             // removing all comments
             $content = preg_replace('~(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)~', '', $content);
             if ($this->searchForHack($content)) {
@@ -174,9 +175,9 @@ class IndexPhpChecker
                 die($this->getOutput());
             }
         } else {
-            // panic no index.php or not readable!
+            // panic index.php is not readable
             if ($this->extConf->getEmailTo()) {
-                $this->sendMissingIndexNotice();
+                $this->sendNotReadableNotice();
             }
             exit;
         }
@@ -257,16 +258,16 @@ class IndexPhpChecker
     }
     
     /**
-     * send missing or not readable index.php notice via email
+     * send not readable index.php notice via email
      *
      * @return void
      */
-    protected function sendMissingIndexNotice()
+    protected function sendNotReadableNotice()
     {
         $this->sendMail(
-            'TYPO3-CheckMySite panic, no index.php!',
+            'TYPO3-CheckMySite panic. index.php not readable!',
             $this->renderTemplate(
-                $this->extConf->getEmailTemplateForMissingIndex()
+                $this->extConf->getEmailTemplateForNotReadableIndex()
             )
         );
     }
