@@ -28,4 +28,4 @@ What does it do?
 ----------------
 
 This extensions checks the frontend index.php for suspicious code.
-If foreign code was detected it will send you an email and redirect to another page or showns alternative content.
+If suspicious code was detected an e-mail will be send to the administrator and the visitor will be redirected to a notification page or alternate site.

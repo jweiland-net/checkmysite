@@ -11,7 +11,7 @@ Extension Manager
 -----------------
 
 Some general settings can be configured in the Extension Manager.
-If you need to configure those, switch to the module "Extension Manager", select the extension "**checkmysite**" and press on the configure-icon!
+If you need to configure these, switch to the module "Extension Manager", select the extension "**checkmysite**" and press on the configure-icon!
 
 The settings are divided into several tabs and described here in detail:
 
@@ -84,7 +84,7 @@ set the waiting time (in seconds) between the notification e-mails.
 email_template_for_hacking
 """"""""""""""""""""""""""
 
-Define an email template path, which should be used to send the hacking notice.
+Define an email template path, which should be used to send the hacking notification.
 
 .. _extensionManager_email_template_for_not_readable_index:
 
