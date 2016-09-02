@@ -160,6 +160,7 @@ class IndexPhpChecker
     {
         $this->initializeObject();
         
+        // no need to check against is_file, because without an index.php this script will not be started
         if (is_readable(PATH_site . 'index.php')) {
             $content = @file_get_contents(PATH_site . 'index.php');
             // removing all comments
@@ -188,6 +189,7 @@ class IndexPhpChecker
      * If a modification was detected return true
      *
      * @param string $content
+     *
      * @return bool
      */
     protected function searchForHack($content)
