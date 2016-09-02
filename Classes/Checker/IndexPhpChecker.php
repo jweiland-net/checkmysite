@@ -147,8 +147,6 @@ class IndexPhpChecker
     {
         $this->extConf = GeneralUtility::makeInstance('JWeiland\\Checkmysite\\Configuration\\ExtConf');
         $this->registry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Registry');
-        // @ToDo: SF: Why do we need this?
-        date_default_timezone_set('Europe/Berlin');
     }
 
     /**

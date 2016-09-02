@@ -4,6 +4,14 @@
 		<header/>
 		<body>
 
+			<trans-unit id="redirectUrl">
+				<source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
+				<target>URL für Weiterleitung: Wenn die index.php verändert wurde, können Sie hier ein URL hinterlegen, auf die dann weitergeleitet wird. Bitte tragen Sie eine URL eines anderen Servers/Domain ein, um Endlosschleifen zu vermeiden.</target>
+			</trans-unit>
+			<trans-unit id="contentText">
+				<source>Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</source>
+				<target>Text für Ausgabe: Wenn Sie keine Weiterleitung definiert haben, dann können Sie hier einen festen Text angeben, der anstelle dessen ausgegeben wird.</target>
+			</trans-unit>
 			<trans-unit id="emailTo">
 				<source>Email to: Email address for notifications (separate multiple addresses with comma)</source>
 				<target>Emails senden an: Geben Sie hier eine oder mehrere kommaseparierte Emailadressen an, an die die Notifications bei Dateimodifikationen gesendet werden sollen.</target>
@@ -31,14 +39,6 @@
 			<trans-unit id="templateOutputAlternative">
 				<source>Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</source>
 				<target>Vorlage für alternative Ausgabe: Hier können Sie einen Dateipfad zu einer Vorlage definieren, die bei Modifikation der index.php verwendet werden soll.</target>
-			</trans-unit>
-			<trans-unit id="redirectUrl">
-				<source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
-				<target>URL für Weiterleitung: Wenn die index.php verändert wurde, können Sie hier ein URL hinterlegen, auf die dann weitergeleitet wird. Bitte tragen Sie eine URL eines anderen Servers/Domain ein, um Endlosschleifen zu vermeiden.</target>
-			</trans-unit>
-			<trans-unit id="contentText">
-				<source>Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</source>
-				<target>Text für Ausgabe: Wenn Sie keine Weiterleitung definiert haben, dann können Sie hier einen festen Text angeben, der anstelle dessen ausgegeben wird.</target>
 			</trans-unit>
 
 		</body>
