@@ -32,8 +32,6 @@ class ExtConf implements SingletonInterface
 
     protected int $emailWaitTime = 1800;
 
-    protected string $templateOutputRedirect = '';
-
     protected string $templateOutputAlternative = '';
 
     public function __construct(ExtensionConfiguration $extensionConfiguration)
@@ -115,16 +113,6 @@ class ExtConf implements SingletonInterface
     public function setEmailWaitTime(string $emailWaitTime): void
     {
         $this->emailWaitTime = (int)$emailWaitTime;
-    }
-
-    public function getTemplateOutputRedirect(): string
-    {
-        return $this->templateOutputRedirect;
-    }
-
-    public function setTemplateOutputRedirect(string $templateOutputRedirect): void
-    {
-        $this->templateOutputRedirect = $templateOutputRedirect;
     }
 
     public function getTemplateOutputAlternative(): string
