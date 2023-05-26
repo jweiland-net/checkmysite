@@ -1,48 +1,38 @@
 <?php
-namespace JWeiland\Checkmysite\Checker;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/checkmysite.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\Checkmysite\Checker;
+
 use JWeiland\Checkmysite\Configuration\ExtConf;
-use TYPO3\CMS\Core\Mail\MailMessage;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mime\Address;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Mail\FluidEmail;
+use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * check the index.php for hacking
+ * Check the index.php for hacking attacks
  */
 class IndexPhpChecker
 {
-    /**
-     * @var ExtConf
-     */
-    protected $extConf;
+    protected ExtConf $extConf;
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected Registry $registry;
 
-    /**
-     * @var string
-     */
-    protected $hackingIssue = '';
+    protected string $hackingIssue = '';
 
-    /**
-     * @var array
-     */
-    protected $pattern = array(
+    protected array $pattern = [
         /*
          * stop words
          */
@@ -136,31 +126,22 @@ class IndexPhpChecker
          * hack used functions
          */
         '/base64_decode/i',
-    );
+    ];
 
-    /**
-     * initialize this object
-     *
-     * @return void
-     */
-    public function initializeObject()
+    public function __construct(ExtConf $extConf, Registry $registry)
     {
-        $this->extConf = GeneralUtility::makeInstance('JWeiland\\Checkmysite\\Configuration\\ExtConf');
-        $this->registry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Registry');
+        $this->extConf = $extConf;
+        $this->registry = $registry;
     }
 
     /**
-     * read content of index.php and check content for hacking attacks
-     *
-     * @return void
+     * Read content of index.php and check content for hacking attacks
      */
-    public function checkIndexPhp()
+    public function checkIndexPhp(): void
     {
-        $this->initializeObject();
-        
-        // no need to check against is_file, because without an index.php this script will not be started
-        if (is_readable(PATH_site . 'index.php')) {
-            $content = @file_get_contents(PATH_site . 'index.php');
+        // No need to check against is_file, because without an index.php this script will not be started
+        if (is_readable(Environment::getPublicPath() . '/index.php')) {
+            $content = @file_get_contents(Environment::getPublicPath() . '/index.php');
             // removing all comments
             $content = preg_replace('~(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)~', '', $content);
             if ($this->searchForHack($content)) {
@@ -183,14 +164,10 @@ class IndexPhpChecker
     }
 
     /**
-     * Parse the content
-     * If a modification was detected return true
-     *
-     * @param string $content
-     *
-     * @return bool
+     * Parse the content.
+     * If a modification/hack was detected, return true.
      */
-    protected function searchForHack($content)
+    protected function searchForHack(string $content): bool
     {
         foreach ($this->pattern as $pattern) {
             $this->hackingIssue = $pattern;
@@ -198,50 +175,46 @@ class IndexPhpChecker
                 return true;
             }
         }
-        // no hacking. return
+
         return false;
     }
-    
+
     /**
      * Generate an alternative output on hacking detection
      * or an output for redirect
-     *
-     * @return string
      */
-    protected function getOutput()
+    protected function getOutput(): string
     {
-        // redirect to url, if set and is valid
+        // Redirect to url, if set and is valid
         if (
-            !empty(parse_url($this->extConf->getRedirectUrl(), PHP_URL_HOST)) &&
-            GeneralUtility::isValidUrl($this->extConf->getRedirectUrl())
+            !empty(parse_url($this->extConf->getRedirectUrl(), PHP_URL_HOST))
+            && GeneralUtility::isValidUrl($this->extConf->getRedirectUrl())
         ) {
             // because of the attack we may have an output.
             // That's why we use the META Refresh instead of the better header Location method
             $output = $this->renderTemplate(
                 $this->extConf->getTemplateOutputRedirect(),
-                array(
-                    'redirectUrl' => $this->extConf->getRedirectUrl()
-                )
+                [
+                    'redirectUrl' => $this->extConf->getRedirectUrl(),
+                ]
             );
         } else {
             $output = $this->renderTemplate(
                 $this->extConf->getTemplateOutputAlternative(),
-                array(
+                [
                     'title' => 'Sorry',
-                    'content' => $this->extConf->getContentText()
-                )
+                    'content' => $this->extConf->getContentText(),
+                ]
             );
         }
-        
+
         return $output;
     }
-    
+
     /**
-     * send hacking notice via email
-     *
-     * @return void
+     * Send hacking notice via email
      */
-    protected function sendHackingNotice()
+    protected function sendHackingNotice(): void
     {
         $this->sendMail(
             sprintf(
@@ -250,19 +223,17 @@ class IndexPhpChecker
             ),
             $this->renderTemplate(
                 $this->extConf->getEmailTemplateForHacking(),
-                array(
-                    'hackingIssue' => $this->hackingIssue
-                )
+                [
+                    'hackingIssue' => $this->hackingIssue,
+                ]
             )
         );
     }
-    
+
     /**
-     * send not readable index.php notice via email
-     *
-     * @return void
+     * Send not readable index.php notice via email
      */
-    protected function sendNotReadableNotice()
+    protected function sendNotReadableNotice(): void
     {
         $this->sendMail(
             'TYPO3-CheckMySite panic. index.php not readable!',
@@ -271,46 +242,44 @@ class IndexPhpChecker
             )
         );
     }
-    
+
     /**
-     * send the email, using the MailMessage class
-     *
-     * @param string $subject
-     * @param string $body
-     *
-     * @return void
+     * Send the email, using the MailMessage class
      */
-    protected function sendMail($subject, $body)
+    protected function sendMail(string $subject, string $body): void
     {
-        /** @var MailMessage $mail */
-        $mail = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
-        $mail->setFrom(array($this->extConf->getEmailFrom() => 'TYPO3-CheckMySite'));
-        $mail->setTo(GeneralUtility::trimExplode(',', $this->extConf->getEmailTo()));
-        $mail->setSubject($subject);
-        $mail->setBody(nl2br(strip_tags($body)));
-        $mail->addPart($body, 'text/html');
-        if ($mail->send()) {
+        $recipients = [];
+        foreach (GeneralUtility::trimExplode(',', $this->extConf->getEmailTo()) as $email) {
+            $recipients[] = new Address($email);
+        }
+
+        $fluidEmail = GeneralUtility::makeInstance(FluidEmail::class);
+        $fluidEmail->addFrom(new Address($this->extConf->getEmailFrom(), 'TYPO3-CheckMySite'));
+        $fluidEmail->addTo(...$recipients);
+        $fluidEmail->subject($subject);
+        $fluidEmail->assignMultiple([
+            'headline' => $subject,
+            'content' => $body,
+        ]);
+
+        try {
+            GeneralUtility::makeInstance(Mailer::class)->send($fluidEmail);
             $this->registry->set('checkmysite', 'timestampOfLastSendEmail', time());
+        } catch (TransportExceptionInterface $e) {
         }
     }
-    
+
     /**
      * Render template
-     *
-     * @param string $file A filename which can also be started with EXT:
-     * @param array $assign Add some variables you want to assign to template
-     *
-     * @return string
      */
-    protected function renderTemplate($file, array $assign = array())
+    protected function renderTemplate(string $file, array $assign = []): string
     {
-        /** @var StandaloneView $view */
-        $view = GeneralUtility::makeInstance('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(
             GeneralUtility::getFileAbsFileName($file)
         );
         $view->assignMultiple($assign);
-        
+
         return $view->render();
     }
 }
