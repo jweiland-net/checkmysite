@@ -1,282 +1,163 @@
 <?php
-namespace JWeiland\Checkmysite\Configuration;
+
+declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the package jweiland/checkmysite.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
+ * LICENSE file that was distributed with this source code.
  */
+
+namespace JWeiland\Checkmysite\Configuration;
+
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * This class will streamline the values from extension manager configuration
  */
 class ExtConf implements SingletonInterface
 {
-    /**
-     * @var string
-     */
-    protected $emailTo = '';
+    protected string $emailTo = '';
 
-    /**
-     * @var string
-     */
-    protected $emailFrom = '';
+    protected string$emailFrom = '';
 
-    /**
-     * @var string
-     */
-    protected $contentText = '';
+    protected string $contentText = '';
 
-    /**
-     * @var string
-     */
-    protected $redirectUrl = '';
+    protected string $redirectUrl = '';
 
-    /**
-     * @var int
-     */
-    protected $emailWaitTime = 1800;
-    
-    /**
-     * @var string
-     */
-    protected $emailTemplateForHacking = '';
-    
-    /**
-     * @var string
-     */
-    protected $emailTemplateForNotReadableIndex = '';
-    
-    /**
-     * @var string
-     */
-    protected $templateOutputRedirect = '';
-    
-    /**
-     * @var string
-     */
-    protected $templateOutputAlternative = '';
-    
-    /**
-     * constructor of this class
-     * This method reads the global configuration and calls the setter methods.
-     */
-    public function __construct()
+    protected int $emailWaitTime = 1800;
+
+    protected string $emailTemplateForHacking = '';
+
+    protected string $emailTemplateForNotReadableIndex = '';
+
+    protected string $templateOutputRedirect = '';
+
+    protected string $templateOutputAlternative = '';
+
+    public function __construct(ExtensionConfiguration $extensionConfiguration)
     {
-        // get global configuration
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['checkmysite']);
-        if (is_array($extConf)) {
+        try {
+            $extConf = $extensionConfiguration->get('checkmysite');
+            if (!is_array($extConf)) {
+                return;
+            }
+
+            if (empty($extConf)) {
+                return;
+            }
+
             // call setter method foreach configuration entry
             foreach ($extConf as $key => $value) {
-                $methodName = 'set' . GeneralUtility::underscoredToUpperCamelCase($key);
+                $methodName = 'set' . ucfirst($key);
                 if (method_exists($this, $methodName)) {
                     $this->$methodName($value);
                 }
             }
+        } catch (ExtensionConfigurationExtensionNotConfiguredException | ExtensionConfigurationPathDoesNotExistException $e) {
         }
     }
 
-    /**
-     * Returns the emailTo
-     *
-     * @return string $emailTo
-     */
-    public function getEmailTo()
+    public function getEmailTo(): string
     {
         return $this->emailTo;
     }
 
-    /**
-     * Sets the emailTo
-     *
-     * @param string $emailTo
-     * @return void
-     */
-    public function setEmailTo($emailTo)
+    public function setEmailTo(string $emailTo): void
     {
-        $this->emailTo = (string)$emailTo;
+        $this->emailTo = $emailTo;
     }
 
-    /**
-     * Returns the emailFrom
-     *
-     * @return string $emailFrom
-     */
-    public function getEmailFrom()
+    public function getEmailFrom(): string
     {
         return $this->emailFrom;
     }
 
-    /**
-     * Sets the emailFrom
-     *
-     * @param string $emailFrom
-     * @return void
-     */
-    public function setEmailFrom($emailFrom)
+    public function setEmailFrom(string $emailFrom): void
     {
-        $this->emailFrom = (string)$emailFrom;
+        $this->emailFrom = $emailFrom;
     }
 
-    /**
-     * Returns the contentText
-     *
-     * @return string $contentText
-     */
-    public function getContentText()
+    public function getContentText(): string
     {
         if (empty($this->contentText)) {
             return 'Sorry, our website is down for maintenance. Please try again later!';
         }
+
         return $this->contentText;
     }
 
-    /**
-     * Sets the contentText
-     *
-     * @param string $contentText
-     * @return void
-     */
-    public function setContentText($contentText)
+    public function setContentText(string $contentText): void
     {
-        $this->contentText = trim((string)$contentText);
+        $this->contentText = trim($contentText);
     }
 
-    /**
-     * Returns the redirectUrl
-     *
-     * @return string $redirectUrl
-     */
-    public function getRedirectUrl()
+    public function getRedirectUrl(): string
     {
         return $this->redirectUrl;
     }
 
-    /**
-     * Sets the redirectUrl
-     *
-     * @param string $redirectUrl
-     * @return void
-     */
-    public function setRedirectUrl($redirectUrl)
+    public function setRedirectUrl(string $redirectUrl): void
     {
-        $this->redirectUrl = (string)$redirectUrl;
+        $this->redirectUrl = $redirectUrl;
     }
 
-    /**
-     * Returns the emailWaitTime
-     *
-     * @return int $emailWaitTime
-     */
-    public function getEmailWaitTime()
+    public function getEmailWaitTime(): int
     {
         if (empty($this->emailWaitTime)) {
             return 1800;
         }
+
         return $this->emailWaitTime;
     }
 
-    /**
-     * Sets the emailWaitTime
-     *
-     * @param int $emailWaitTime
-     * @return void
-     */
-    public function setEmailWaitTime($emailWaitTime)
+    public function setEmailWaitTime(string $emailWaitTime): void
     {
         $this->emailWaitTime = (int)$emailWaitTime;
     }
-    
-    /**
-     * Returns the emailTemplateForHacking
-     *
-     * @return string $emailTemplateForHacking
-     */
-    public function getEmailTemplateForHacking()
+
+    public function getEmailTemplateForHacking(): string
     {
         return $this->emailTemplateForHacking;
     }
-    
-    /**
-     * Sets the emailTemplateForHacking
-     *
-     * @param string $emailTemplateForHacking
-     * @return void
-     */
-    public function setEmailTemplateForHacking($emailTemplateForHacking)
+
+    public function setEmailTemplateForHacking(string $emailTemplateForHacking): void
     {
-        $this->emailTemplateForHacking = (string)$emailTemplateForHacking;
+        $this->emailTemplateForHacking = $emailTemplateForHacking;
     }
-    
-    /**
-     * Returns the emailTemplateForNotReadableIndex
-     *
-     * @return string $emailTemplateForNotReadableIndex
-     */
-    public function getEmailTemplateForNotReadableIndex()
+
+    public function getEmailTemplateForNotReadableIndex(): string
     {
         return $this->emailTemplateForNotReadableIndex;
     }
-    
-    /**
-     * Sets the emailTemplateForNotReadableIndex
-     *
-     * @param string $emailTemplateForNotReadableIndex
-     * @return void
-     */
-    public function setEmailTemplateForNotReadableIndex($emailTemplateForNotReadableIndex)
+
+    public function setEmailTemplateForNotReadableIndex(string $emailTemplateForNotReadableIndex): void
     {
-        $this->emailTemplateForNotReadableIndex = (string)$emailTemplateForNotReadableIndex;
+        $this->emailTemplateForNotReadableIndex = $emailTemplateForNotReadableIndex;
     }
-    
-    /**
-     * Returns the templateOutputRedirect
-     *
-     * @return string $templateOutputRedirect
-     */
-    public function getTemplateOutputRedirect()
+
+    public function getTemplateOutputRedirect(): string
     {
         return $this->templateOutputRedirect;
     }
-    
-    /**
-     * Sets the templateOutputRedirect
-     *
-     * @param string $templateOutputRedirect
-     * @return void
-     */
-    public function setTemplateOutputRedirect($templateOutputRedirect)
+
+    public function setTemplateOutputRedirect(string $templateOutputRedirect): void
     {
-        $this->templateOutputRedirect = (string)$templateOutputRedirect;
+        $this->templateOutputRedirect = $templateOutputRedirect;
     }
-    
-    /**
-     * Returns the templateOutputAlternative
-     *
-     * @return string $templateOutputAlternative
-     */
-    public function getTemplateOutputAlternative()
+
+    public function getTemplateOutputAlternative(): string
     {
         return $this->templateOutputAlternative;
     }
-    
-    /**
-     * Sets the templateOutputAlternative
-     *
-     * @param string $templateOutputAlternative
-     * @return void
-     */
-    public function setTemplateOutputAlternative($templateOutputAlternative)
+
+    public function setTemplateOutputAlternative(string $templateOutputAlternative): void
     {
-        $this->templateOutputAlternative = (string)$templateOutputAlternative;
+        $this->templateOutputAlternative = $templateOutputAlternative;
     }
 }

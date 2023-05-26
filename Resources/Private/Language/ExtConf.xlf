@@ -3,7 +3,6 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2016-09-02T11:39:40Z" product-name="checkmysite">
 		<header/>
 		<body>
-
 			<trans-unit id="redirectUrl">
 				<source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
 			</trans-unit>
@@ -31,7 +30,6 @@
 			<trans-unit id="templateOutputAlternative">
 				<source>Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</source>
 			</trans-unit>
-
 		</body>
 	</file>
 </xliff>
