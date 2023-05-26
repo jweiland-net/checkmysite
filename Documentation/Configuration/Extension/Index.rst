@@ -34,19 +34,6 @@ content_text
 
     :Required: false
     :type: string
-    :Default: [EMPTY]
-    :Path: Extension Settings
-
-    If you haven't configured a redirect URL, you can enter a fixed text here,
-    which will be used for output.
-
-content_text
-------------
-
-..  confval:: content_text
-
-    :Required: false
-    :type: string
     :Default: Sorry, our website is down for maintenance. Please try again later!
     :Path: Extension Settings
 
@@ -89,44 +76,6 @@ email_wait_time
     :Path: Extension Settings
 
     Set the waiting time (in seconds) between the notification e-mails.
-
-email_template_for_hacking
---------------------------
-
-..  confval:: email_template_for_hacking
-
-    :Required: true
-    :type: string
-    :Default: EXT:checkmysite/Resources/Private/Email/HackingNotice.html
-    :Path: Extension Settings
-
-    Define an email template path, which should be used to send the
-    hacking notification.
-
-email_template_for_not_readable_index
--------------------------------------
-
-..  confval:: email_template_for_not_readable_index
-
-    :Required: true
-    :type: string
-    :Default: EXT:checkmysite/Resources/Private/Email/NotReadableIndex.html
-    :Path: Extension Settings
-
-    Define an email template path, which should be used to send a notification,
-    if index.php is not readable.
-
-template_output_redirect
-------------------------
-
-..  confval:: template_output_redirect
-
-    :Required: true
-    :type: string
-    :Default: EXT:checkmysite/Resources/Private/Output/Redirect.html
-    :Path: Extension Settings
-
-    Define a template for redirecting to another location via META refresh.
 
 template_output_alternative
 ---------------------------

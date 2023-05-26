@@ -8,7 +8,5 @@ email_to =
 email_from =
 # cat=email; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:emailWaitTime
 email_wait_time = 1800
-# cat=template; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:templateOutputRedirect
-template_output_redirect = EXT:checkmysite/Resources/Private/Output/Redirect.html
 # cat=template; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:templateOutputAlternative
 template_output_alternative = EXT:checkmysite/Resources/Private/Output/Alternative.html
