@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotCon
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class will streamline the values from extension manager configuration
@@ -30,10 +31,6 @@ class ExtConf implements SingletonInterface
     protected string $redirectUrl = '';
 
     protected int $emailWaitTime = 1800;
-
-    protected string $emailTemplateForHacking = '';
-
-    protected string $emailTemplateForNotReadableIndex = '';
 
     protected string $templateOutputRedirect = '';
 
@@ -53,7 +50,7 @@ class ExtConf implements SingletonInterface
 
             // call setter method foreach configuration entry
             foreach ($extConf as $key => $value) {
-                $methodName = 'set' . ucfirst($key);
+                $methodName = 'set' . GeneralUtility::underscoredToUpperCamelCase($key);
                 if (method_exists($this, $methodName)) {
                     $this->$methodName($value);
                 }
@@ -118,26 +115,6 @@ class ExtConf implements SingletonInterface
     public function setEmailWaitTime(string $emailWaitTime): void
     {
         $this->emailWaitTime = (int)$emailWaitTime;
-    }
-
-    public function getEmailTemplateForHacking(): string
-    {
-        return $this->emailTemplateForHacking;
-    }
-
-    public function setEmailTemplateForHacking(string $emailTemplateForHacking): void
-    {
-        $this->emailTemplateForHacking = $emailTemplateForHacking;
-    }
-
-    public function getEmailTemplateForNotReadableIndex(): string
-    {
-        return $this->emailTemplateForNotReadableIndex;
-    }
-
-    public function setEmailTemplateForNotReadableIndex(string $emailTemplateForNotReadableIndex): void
-    {
-        $this->emailTemplateForNotReadableIndex = $emailTemplateForNotReadableIndex;
     }
 
     public function getTemplateOutputRedirect(): string

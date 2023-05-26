@@ -9,12 +9,18 @@ declare(strict_types=1);
  * LICENSE file that was distributed with this source code.
  */
 
-namespace JWeiland\Checkmysite\Checker;
+namespace JWeiland\Checkmysite\Middleware;
 
 use JWeiland\Checkmysite\Configuration\ExtConf;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Registry;
@@ -24,7 +30,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 /**
  * Check the index.php for hacking attacks
  */
-class IndexPhpChecker
+class IndexPhpCheckerMiddleware implements MiddlewareInterface
 {
     protected ExtConf $extConf;
 
@@ -39,7 +45,7 @@ class IndexPhpChecker
         '/java/i',
         '/text/i',
         '/iframe/i',
-        '/type/i',
+        '/type/', // Do not "i". It would match REQUESTTYPE_FE
         /*
          * super globals
          */
@@ -134,40 +140,59 @@ class IndexPhpChecker
         $this->registry = $registry;
     }
 
-    /**
-     * Read content of index.php and check content for hacking attacks
-     */
-    public function checkIndexPhp(): void
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        // No need to check against is_file, because without an index.php this script will not be started
+        // No need to check against is_file, because without an index.php checkmysite will not be executed.
+        // We just check read rights here.
         if (is_readable(Environment::getPublicPath() . '/index.php')) {
             $content = @file_get_contents(Environment::getPublicPath() . '/index.php');
-            // removing all comments
-            $content = preg_replace('~(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)~', '', $content);
+            $content = $this->removeComments($content);
+
             if ($this->searchForHack($content)) {
-                // hacking detected! send mail
-                if (
-                    $this->extConf->getEmailTo()
-                    && (int)$this->registry->get('checkmysite', 'timestampOfLastSendEmail') + $this->extConf->getEmailWaitTime() <= time()
-                ) {
+                if ($this->isTimeToSendFurtherMail()) {
                     $this->sendHackingNotice();
                 }
-                die($this->getOutput());
+
+                return $this->sendAlternativeResponse();
             }
         } else {
-            // panic index.php is not readable
+            // Panic index.php is not readable
             if ($this->extConf->getEmailTo()) {
                 $this->sendNotReadableNotice();
             }
+
             exit;
         }
+
+        return $handler->handle($request);
+    }
+
+    private function isTimeToSendFurtherMail(): bool
+    {
+        $timestampOfLastSendMail = (int)$this->registry->get(
+            'checkmysite',
+            'timestampOfLastSendEmail',
+            0
+        );
+
+        return $this->extConf->getEmailTo()
+            && $timestampOfLastSendMail + $this->extConf->getEmailWaitTime() <= time();
+    }
+
+    private function removeComments(string $content): string
+    {
+        return preg_replace(
+            '~(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)~',
+            '',
+            $content
+        );
     }
 
     /**
      * Parse the content.
      * If a modification/hack was detected, return true.
      */
-    protected function searchForHack(string $content): bool
+    private function searchForHack(string $content): bool
     {
         foreach ($this->pattern as $pattern) {
             $this->hackingIssue = $pattern;
@@ -179,74 +204,47 @@ class IndexPhpChecker
         return false;
     }
 
-    /**
-     * Generate an alternative output on hacking detection
-     * or an output for redirect
-     */
-    protected function getOutput(): string
+    private function sendAlternativeResponse(): ResponseInterface
     {
-        // Redirect to url, if set and is valid
         if (
             !empty(parse_url($this->extConf->getRedirectUrl(), PHP_URL_HOST))
             && GeneralUtility::isValidUrl($this->extConf->getRedirectUrl())
         ) {
-            // because of the attack we may have an output.
-            // That's why we use the META Refresh instead of the better header Location method
-            $output = $this->renderTemplate(
-                $this->extConf->getTemplateOutputRedirect(),
-                [
-                    'redirectUrl' => $this->extConf->getRedirectUrl(),
-                ]
-            );
-        } else {
-            $output = $this->renderTemplate(
-                $this->extConf->getTemplateOutputAlternative(),
-                [
-                    'title' => 'Sorry',
-                    'content' => $this->extConf->getContentText(),
-                ]
-            );
+            // Redirect to url, if set and is valid. Use temporary redirect.
+            return new RedirectResponse($this->extConf->getRedirectUrl(), 307);
         }
 
-        return $output;
+        return new HtmlResponse($this->renderTemplate(
+            $this->extConf->getTemplateOutputAlternative(),
+            [
+                'title' => 'Sorry',
+                'content' => $this->extConf->getContentText(),
+            ]
+        ));
     }
 
-    /**
-     * Send hacking notice via email
-     */
-    protected function sendHackingNotice(): void
+    private function sendHackingNotice(): void
     {
         $this->sendMail(
-            sprintf(
-                'TYPO3-CheckMySite hacking attempt @ site: %s',
-                $_SERVER['HTTP_HOST']
-            ),
-            $this->renderTemplate(
-                $this->extConf->getEmailTemplateForHacking(),
-                [
-                    'hackingIssue' => $this->hackingIssue,
-                ]
-            )
+            'TYPO3-CheckMySite hacking attempt @ site: ' . $_SERVER['HTTP_HOST'],
+            $this->hackingIssue,
+            'HackingNotice'
         );
     }
 
-    /**
-     * Send not readable index.php notice via email
-     */
-    protected function sendNotReadableNotice(): void
+    private function sendNotReadableNotice(): void
     {
         $this->sendMail(
             'TYPO3-CheckMySite panic. index.php not readable!',
-            $this->renderTemplate(
-                $this->extConf->getEmailTemplateForNotReadableIndex()
-            )
+            '',
+            'NotReadableIndex'
         );
     }
 
     /**
-     * Send the email, using the MailMessage class
+     * Send the email, using the FluidEmail class
      */
-    protected function sendMail(string $subject, string $body): void
+    private function sendMail(string $subject, string $body, string $template): void
     {
         $recipients = [];
         foreach (GeneralUtility::trimExplode(',', $this->extConf->getEmailTo()) as $email) {
@@ -257,8 +255,10 @@ class IndexPhpChecker
         $fluidEmail->addFrom(new Address($this->extConf->getEmailFrom(), 'TYPO3-CheckMySite'));
         $fluidEmail->addTo(...$recipients);
         $fluidEmail->subject($subject);
+        $fluidEmail->format('html');
+        $fluidEmail->setTemplate($template);
         $fluidEmail->assignMultiple([
-            'headline' => $subject,
+            'subject' => $subject,
             'content' => $body,
         ]);
 
@@ -269,10 +269,7 @@ class IndexPhpChecker
         }
     }
 
-    /**
-     * Render template
-     */
-    protected function renderTemplate(string $file, array $assign = []): string
+    private function renderTemplate(string $file, array $assign = []): string
     {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(

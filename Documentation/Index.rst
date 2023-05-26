@@ -1,34 +1,56 @@
-..  Editor configuration
-	...................................................
-	* utf-8 with BOM as encoding
-	* tab indent with 4 characters for code snippet.
-	* optional: soft carriage return preferred.
+.. include:: ../Includes.rst.txt
 
-.. Includes roles, substitutions, ...
-.. include:: _IncludedDirectives.rst
+
+.. _start:
 
 ===========
 Checkmysite
 ===========
 
-:Extension name: |extension_name|
-:Extension key: |extension_key|
-:Version: 3.1.0
-:Description: This extension checks index.php of TYPO3 for suspicious code
-:Language: en
-:Author: |author|
-:Creation: 02.09.2016
-:Generation: 12:00
-:Licence: Open Content License available from `www.opencontent.org/opl.shtml <http://www.opencontent.org/opl.shtml>`_
+:Extension key:
+    checkmysite
 
-The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from `www.typo3.org
-<http://www.typo3.org/>`_
+:Package name:
+    jweiland/checkmysite
 
-**Table of Contents**
+:Version:
+    |release|
 
-.. toctree::
-  :maxdepth: 2
+:Language:
+    en
 
-  Introduction/Index
-  AdministratorManual/Index
+:Author:
+    Stefan Froemken
 
+:License:
+    This document is published under the
+    `Creative Commons BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`__
+    license.
+
+:Rendered:
+    |today|
+
+----
+
+Check index.php for suspicious modifications
+
+----
+
+**Table of Contents:**
+
+..  toctree::
+    :maxdepth: 2
+    :titlesonly:
+
+    Introduction/Index
+    Installation/Index
+    Configuration/Index
+    ChangeLog/Index
+
+..  Meta Menu
+
+..  toctree::
+    :hidden:
+
+    Sitemap
+    genindex

@@ -1,5 +1,5 @@
 # cat=basic; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:redirectUrl
-redirect_url = http://
+redirect_url = https://
 # cat=basic; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:contentText
 content_text = Sorry, our website is down for maintenance. Please try again later!
 # cat=email; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:emailTo
@@ -8,10 +8,6 @@ email_to =
 email_from =
 # cat=email; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:emailWaitTime
 email_wait_time = 1800
-# cat=template; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:emailTemplateForHacking
-email_template_for_hacking = EXT:checkmysite/Resources/Private/Email/HackingNotice.html
-# cat=template; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:emailTemplateForNotReadableIndex
-email_template_for_not_readable_index = EXT:checkmysite/Resources/Private/Email/NotReadableIndex.html
 # cat=template; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:templateOutputRedirect
 template_output_redirect = EXT:checkmysite/Resources/Private/Output/Redirect.html
 # cat=template; type=text; label=LLL:EXT:checkmysite/Resources/Private/Language/ExtConf.xlf:templateOutputAlternative
