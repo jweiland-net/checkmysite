@@ -1,44 +1,44 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-09-02T11:39:40Z" product-name="checkmysite">
-		<header/>
-		<body>
-			<trans-unit id="redirectUrl">
-				<source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
-				<target>URL für Weiterleitung: Wenn die index.php verändert wurde, können Sie hier ein URL hinterlegen, auf die dann weitergeleitet wird. Bitte tragen Sie eine URL eines anderen Servers/Domain ein, um Endlosschleifen zu vermeiden.</target>
-			</trans-unit>
-			<trans-unit id="contentText">
-				<source>Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</source>
-				<target>Text für Ausgabe: Wenn Sie keine Weiterleitung definiert haben, dann können Sie hier einen festen Text angeben, der anstelle dessen ausgegeben wird.</target>
-			</trans-unit>
-			<trans-unit id="emailTo">
-				<source>Email to: Email address for notifications (separate multiple addresses with comma)</source>
-				<target>Emails senden an: Geben Sie hier eine oder mehrere kommaseparierte Emailadressen an, an die die Notifications bei Dateimodifikationen gesendet werden sollen.</target>
-			</trans-unit>
-			<trans-unit id="emailFrom">
-				<source>Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</source>
-				<target>Emails versenden von: Wenn wir Emails versenden, welche Emailadresse soll als Absender eingetragen werden? Wir empfehlen eine Adresse von Ihrer Domain einzutragen, da die Email sonst möglicherweise als Spam deklariert wird.</target>
-			</trans-unit>
-			<trans-unit id="emailWaitTime">
-				<source>Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</source>
-				<target>Wartezeit zwischen den Emails: Damit Sie nicht mit jedem Request eine Infomail bekommen, können Sie hier einen Wartezeitraum zwischen den Infomails in Sekunden angeben.</target>
-			</trans-unit>
-			<trans-unit id="emailTemplateForHacking">
-				<source>Template for hacking: Define an email template path, which should be used to send the hacking notice.</source>
-				<target>Emailvorlage bei Dateimodifikation: Hier können Sie einen Dateipfad zu einer Emailvorlage definieren, die verwendet werden soll, sobald eine Modifikation der index.php stattgefunden hat.</target>
-			</trans-unit>
-			<trans-unit id="emailTemplateForNotReadableIndex">
-				<source>Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</source>
-				<target>Emailvorlage wenn nicht lesbar: Hier können Sie einen Dateipfad zu einer Emailvorlage definieren, die verwendet werden soll, wenn die index.php nicht gelesen werden kann.</target>
-			</trans-unit>
-			<trans-unit id="templateOutputRedirect">
-				<source>Template for redirect: Define a template for redirecting to another location via META refresh.</source>
-				<target>Vorlage für Weiterleitung: Hier können Sie einen Dateipfad zu einer Vorlage definieren, die für die Weiterleitung via META auf eine andere Seite zuständig ist.</target>
-			</trans-unit>
-			<trans-unit id="templateOutputAlternative">
-				<source>Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</source>
-				<target>Vorlage für alternative Ausgabe: Hier können Sie einen Dateipfad zu einer Vorlage definieren, die bei Modifikation der index.php verwendet werden soll.</target>
-			</trans-unit>
-		</body>
-	</file>
+  <file source-language="en" datatype="plaintext" original="messages" date="2016-09-02T11:39:40Z" product-name="checkmysite" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="redirectUrl">
+        <source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
+        <target state="needs-translation">Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</target>
+      </trans-unit>
+      <trans-unit id="contentText">
+        <source>Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</source>
+        <target state="needs-translation">Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</target>
+      </trans-unit>
+      <trans-unit id="emailTo">
+        <source>Email to: Email address for notifications (separate multiple addresses with comma)</source>
+        <target state="needs-translation">Email to: Email address for notifications (separate multiple addresses with comma)</target>
+      </trans-unit>
+      <trans-unit id="emailFrom">
+        <source>Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</source>
+        <target state="needs-translation">Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</target>
+      </trans-unit>
+      <trans-unit id="emailWaitTime">
+        <source>Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</source>
+        <target state="needs-translation">Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</target>
+      </trans-unit>
+      <trans-unit id="emailTemplateForHacking">
+        <source>Template for hacking: Define an email template path, which should be used to send the hacking notice.</source>
+        <target state="needs-translation">Template for hacking: Define an email template path, which should be used to send the hacking notice.</target>
+      </trans-unit>
+      <trans-unit id="emailTemplateForNotReadableIndex">
+        <source>Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</source>
+        <target state="needs-translation">Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</target>
+      </trans-unit>
+      <trans-unit id="templateOutputRedirect">
+        <source>Template for redirect: Define a template for redirecting to another location via META refresh.</source>
+        <target state="needs-translation">Template for redirect: Define a template for redirecting to another location via META refresh.</target>
+      </trans-unit>
+      <trans-unit id="templateOutputAlternative">
+        <source>Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</source>
+        <target state="needs-translation">Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
