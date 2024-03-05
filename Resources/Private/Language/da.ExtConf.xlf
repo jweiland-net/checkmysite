@@ -3,41 +3,41 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2016-09-02T11:39:40Z" product-name="checkmysite" target-language="da">
     <header/>
     <body>
-      <trans-unit id="redirectUrl">
+      <trans-unit id="redirectUrl" approved="yes">
         <source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
-        <target state="needs-translation">Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</target>
+        <target state="final">Omdirigér URL: Hvis index.php er blevet ændret, kan du omdirigere til en anden side. Men definér venligst en side på en anden server, eller et domæne, for at forhindre endeløse omdirigeringer.</target>
       </trans-unit>
-      <trans-unit id="contentText">
+      <trans-unit id="contentText" approved="yes">
         <source>Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</source>
-        <target state="needs-translation">Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</target>
+        <target state="final">Rendér tekst: Hvis du ikke har konfigureret en omdirigerings-URL, kan du indtaste en tekst her, som vil blive brugt til visning.</target>
       </trans-unit>
-      <trans-unit id="emailTo">
+      <trans-unit id="emailTo" approved="yes">
         <source>Email to: Email address for notifications (separate multiple addresses with comma)</source>
-        <target state="needs-translation">Email to: Email address for notifications (separate multiple addresses with comma)</target>
+        <target state="final">E-mail til: E-mailadresse til notifikationer (flere adresser separeres med komma)</target>
       </trans-unit>
-      <trans-unit id="emailFrom">
+      <trans-unit id="emailFrom" approved="yes">
         <source>Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</source>
-        <target state="needs-translation">Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</target>
+        <target state="final">E-mail fra: Hvilken e-mailadresse skal være afsender? Vi foretrækker at indsætte adresser fra dit domæne. Ellers betragtes de oftest som spam.</target>
       </trans-unit>
-      <trans-unit id="emailWaitTime">
+      <trans-unit id="emailWaitTime" approved="yes">
         <source>Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</source>
-        <target state="needs-translation">Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</target>
+        <target state="final">Ventetid mellem e-mail: Indstil ventetiden (i sekunder) mellem notifikations-mails.</target>
       </trans-unit>
-      <trans-unit id="emailTemplateForHacking">
+      <trans-unit id="emailTemplateForHacking" approved="yes">
         <source>Template for hacking: Define an email template path, which should be used to send the hacking notice.</source>
-        <target state="needs-translation">Template for hacking: Define an email template path, which should be used to send the hacking notice.</target>
+        <target state="final">Skabelon til hacking: Definér en e-mail skabelonsti, som skal bruges til at sende varsel om hacking.</target>
       </trans-unit>
-      <trans-unit id="emailTemplateForNotReadableIndex">
+      <trans-unit id="emailTemplateForNotReadableIndex" approved="yes">
         <source>Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</source>
-        <target state="needs-translation">Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</target>
+        <target state="final">Skabelon for ikke læsbar: Definér en e-mail skabelonsti, som skal bruges til at sende en meddelelse, hvis index.php ikke kan læses.</target>
       </trans-unit>
-      <trans-unit id="templateOutputRedirect">
+      <trans-unit id="templateOutputRedirect" approved="yes">
         <source>Template for redirect: Define a template for redirecting to another location via META refresh.</source>
-        <target state="needs-translation">Template for redirect: Define a template for redirecting to another location via META refresh.</target>
+        <target state="final">Skabelon til omdirigering: Definér en skabelon til omdirigering til et andet sted via META refresh.</target>
       </trans-unit>
-      <trans-unit id="templateOutputAlternative">
+      <trans-unit id="templateOutputAlternative" approved="yes">
         <source>Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</source>
-        <target state="needs-translation">Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</target>
+        <target state="final">Skabelon for alternativ visning: Definér en skabelon, som skal vises, hvis en index.php ændring er blevet opdaget.</target>
       </trans-unit>
     </body>
   </file>
