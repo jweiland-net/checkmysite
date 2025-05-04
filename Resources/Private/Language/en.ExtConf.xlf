@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2016-09-02T11:39:40Z" product-name="checkmysite" target-language="de">
+  <file source-language="en" datatype="plaintext" original="messages" date="2016-09-02T11:39:40Z" product-name="checkmysite" target-language="en">
     <header/>
     <body>
       <trans-unit id="redirectUrl" approved="yes">
         <source>Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</source>
-        <target state="final">Umleitungs-URL: Wenn index.php geändert wurde, können Sie zu einer anderen Seite weiterleiten. Bitte definieren Sie eine Seite auf einem anderen Server oder Domain, um endlose Weiterleitungsschleifen zu vermeiden.</target>
+        <target state="final">Redirect URL: If index.php was modified, you can redirect to another page. But please define a page on another server or domain to prevent endless redirect loops.</target>
       </trans-unit>
       <trans-unit id="contentText" approved="yes">
         <source>Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</source>
-        <target state="final">Text rendern: Wenn Sie keine Umleitungs-URL konfiguriert haben, können Sie hier einen festen Text eingeben, der für die Ausgabe verwendet wird.</target>
+        <target state="final">Render Text: If you haven't configured a redirect URL, you can enter a fixed text here, which will be used for output.</target>
       </trans-unit>
       <trans-unit id="emailTo" approved="yes">
         <source>Email to: Email address for notifications (separate multiple addresses with comma)</source>
-        <target state="final">E-Mail an: E-Mail-Adresse für Benachrichtigungen (mehrere Adressen mit Komma trennen)</target>
+        <target state="final">Email to: Email address for notifications (separate multiple addresses with comma)</target>
       </trans-unit>
       <trans-unit id="emailFrom" approved="yes">
         <source>Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</source>
-        <target state="final">E-Mail von: Wenn wir E-Mails senden, von deren E-Mail-Adresse wir sie senden sollten? Andernfalls können sie als Spam deklariert werden.</target>
+        <target state="final">Email from: If we send emails, from whose email address we should send them? We prefer to insert addresses from your domain. Else they may be declared as spam.</target>
       </trans-unit>
       <trans-unit id="emailWaitTime" approved="yes">
         <source>Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</source>
-        <target state="final">Wartezeit zwischen E-Mail: Legen Sie die Wartezeit (in Sekunden) zwischen den E-Mail-Benachrichtigungen fest.</target>
+        <target state="final">Waiting time between e-mail: set the waiting time (in seconds) between the notification e-mails.</target>
       </trans-unit>
       <trans-unit id="emailTemplateForHacking" approved="yes">
         <source>Template for hacking: Define an email template path, which should be used to send the hacking notice.</source>
-        <target state="final">Vorlage für Hacking: Definieren Sie einen E-Mail-Template-Pfad, der verwendet werden sollte, um die Hacker-Benachrichtigung zu senden.</target>
+        <target state="final">Template for hacking: Define an email template path, which should be used to send the hacking notice.</target>
       </trans-unit>
       <trans-unit id="emailTemplateForNotReadableIndex" approved="yes">
         <source>Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</source>
-        <target state="final">Vorlage für nicht lesbar: Definieren Sie einen E-Mail-Template-Pfad, der verwendet werden sollte, um eine Benachrichtigung zu senden, falls index.php nicht lesbar ist.</target>
+        <target state="final">Template for not readable: Define an email template path, which should be used to send a notification, if index.php is not readable.</target>
       </trans-unit>
       <trans-unit id="templateOutputRedirect" approved="yes">
         <source>Template for redirect: Define a template for redirecting to another location via META refresh.</source>
-        <target state="final">Template für Umleitung: Definieren Sie eine Vorlage für die Weiterleitung an einen anderen Ort über META Aktualisierung.</target>
+        <target state="final">Template for redirect: Define a template for redirecting to another location via META refresh.</target>
       </trans-unit>
       <trans-unit id="templateOutputAlternative" approved="yes">
         <source>Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</source>
-        <target state="final">Vorlage für alternative Ausgabe: Definieren Sie eine Vorlage, die angezeigt werden soll, wenn eine Änderung von index.php erkannt wurde.</target>
+        <target state="final">Template for alternative output: Define a template, which should be shown, if an index.php modification was detected.</target>
       </trans-unit>
     </body>
   </file>
